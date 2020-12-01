@@ -36,10 +36,10 @@ router.delete("/user/:id", deleteUser);
 
 // products router
 router.get("/products", getProducts);
-router.get("/product/:id", getDetailProduct);
+router.get("/product/:productId", getDetailProduct);
 router.post("/product", addProduct);
-router.put("/product/:id", editProduct);
-router.delete("/product/:id", deleteProduct);
+router.put("/product/:productId", editProduct);
+router.delete("/product/:productId", deleteProduct);
 
 // transactions router
 router.get("/transactions", getTransactions);
