@@ -36,6 +36,7 @@ exports.getUsers = async (req, res) => {
     }
     res.send({
       status: responseSuccess,
+      message: "successfully get users",
       data: {
         users,
       },

@@ -38,14 +38,14 @@ router.delete("/user/:id", deleteUser);
 router.get("/products", getProducts);
 router.get("/product/:productId", getDetailProduct);
 router.post("/product", addProduct);
-router.put("/product/:productId", editProduct);
+router.patch("/product/:productId", editProduct);
 router.delete("/product/:productId", deleteProduct);
 
 // transactions router
 router.get("/transactions", getTransactions);
 router.get("transaction/:transactionId", getDetailTransaction);
 router.post("/transaction/", addTransactions);
-router.put("/transaction/:transactionId", editTransaction);
+router.patch("/transaction/:transactionId", editTransaction);
 router.delete("/transaction/:transactionId", deleteTransaction);
 router.get("/my-transactions", getMyTransaction);
 
