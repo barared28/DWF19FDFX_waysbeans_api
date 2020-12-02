@@ -58,10 +58,11 @@ exports.getDetailProduct = async (req, res) => {
   }
 };
 
-// @desc Add Product
+// @desc Add Product and Upload an Image
 // @route POST api/v1/product
 // @access Admin
 exports.addProduct = (req, res) => {
+  console.log(req.body);
   res.json("hai");
 };
 
