@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+// middlewares
+const { uploadImage } = require("../middlewares/upploadImage");
+
 // users controllers
 const {
   login,
@@ -37,13 +40,13 @@ router.delete("/user/:id", deleteUser);
 // products router
 router.get("/products", getProducts);
 router.get("/product/:productId", getDetailProduct);
-router.post("/product", addProduct);
+router.post("/product", uploadImage("photo"), addProduct);
 router.patch("/product/:productId", editProduct);
 router.delete("/product/:productId", deleteProduct);
 
 // transactions router
 router.get("/transactions", getTransactions);
-router.get("transaction/:transactionId", getDetailTransaction);
+router.get("/transaction/:transactionId", getDetailTransaction);
 router.post("/transaction/", addTransactions);
 router.patch("/transaction/:transactionId", editTransaction);
 router.delete("/transaction/:transactionId", deleteTransaction);

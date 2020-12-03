@@ -1,5 +1,6 @@
 // import model
 const { Product } = require("../../models");
+
 // import some shortcut
 const {
   responseSuccess,
@@ -72,6 +73,7 @@ exports.addProduct = async (req, res) => {
       data: {
         id: product.id,
         ...body,
+        photo : req.file.path
       },
     });
   } catch (error) {
