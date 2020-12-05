@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         as: "products",
         through: {
           model: "TransactionProducts",
+          foreignKey: "productId",
         },
       });
     }
@@ -25,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       userId: DataTypes.INTEGER,
       name: DataTypes.STRING,
       email: DataTypes.STRING,
-      phone: DataTypes.INTEGER,
+      phone: DataTypes.STRING,
       address: DataTypes.STRING,
       attachment: DataTypes.STRING,
       status: DataTypes.STRING,

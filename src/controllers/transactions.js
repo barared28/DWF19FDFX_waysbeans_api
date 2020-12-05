@@ -1,15 +1,19 @@
+// import modul
+const Joi = require("joi");
 // import model
 const {
   Transaction,
   User,
   Product,
   TransactionProduct,
+  Profile,
 } = require("../../models");
 // import some shortcut
 const {
   responseSuccess,
   handleError,
   handleNotFound,
+  handleValidation,
 } = require("./handleShortcut");
 
 // @desc Fetch All Transactions
@@ -92,7 +96,24 @@ exports.getDetailTransaction = async (req, res) => {
     if (!transaction) {
       await handleNotFound(res, `transactions with id ${id} is not found`);
     }
+    const { id: userId } = req.user;
 
+    if (+userId === +transaction.user.id) {
+      return res.send({
+        status: responseSuccess,
+        message: "successfully get detail transaction",
+        data: { transaction },
+      });
+    }
+    const profile = await Profile.findOne({ where: { userId } });
+    if (!profile || profile.isAdmin === false) {
+      return res.status(401).send({
+        status: "Response fail",
+        error: {
+          message: "User Access Denied",
+        },
+      });
+    }
     res.send({
       status: responseSuccess,
       message: "successfully get detail transaction",
@@ -108,8 +129,18 @@ exports.getDetailTransaction = async (req, res) => {
 // @access Public
 exports.addTransactions = async (req, res) => {
   try {
-    const { name, email, phone, address, attachment, products } = req.body;
-    console.log(name, email, phone, address, attachment, products);
+    const { body } = req;
+    const scema = Joi.object({
+      name: Joi.string().min(2).required(),
+      email: Joi.string().email().min(10).required(),
+      phone: Joi.number().required(),
+      address: Joi.string().min(5).required(),
+      products: Joi.required(),
+      attachment: Joi.required(),
+    });
+    handleValidation(scema, body, res);
+    const { name, email, phone, address, attachment, products } = body;
+    const { id: userId } = req.user;
     const transaction = await Transaction.create({
       name,
       email,
@@ -117,11 +148,12 @@ exports.addTransactions = async (req, res) => {
       address,
       attachment,
       status: "Waiting Approve",
-      userId: 4,
+      userId,
     });
     await Promise.all(
       products.map(async (product) => {
         const { id, orderQuantity } = product;
+        console.log(product);
         await TransactionProduct.create({
           transactionId: transaction.id,
           productId: id,
@@ -172,6 +204,10 @@ exports.editTransaction = async (req, res) => {
   try {
     const { transactionId: id } = req.params;
     const { body } = req;
+    const scema = Joi.object({
+      status: Joi.string().min(4).required(),
+    });
+    handleValidation(scema, body, res);
     const transaction = await Transaction.findOne({ where: { id } });
     if (!transaction) {
       return handleNotFound(res, `transaction with id ${id} is not found`);
@@ -238,8 +274,47 @@ exports.deleteTransaction = async (req, res) => {
 };
 
 // @desc Get for user to get their Transaction
-// @route DELETE api/v1/my-transactions
+// @route GET api/v1/my-transactions
 // @access User who have this transaction
-exports.getMyTransaction = (req, res) => {
-  res.json("hai");
+exports.getMyTransaction = async (req, res) => {
+  try {
+    const { id } = req.user;
+    const transactions = await Transaction.findAll({
+      where: { userId: id },
+      attributes: {
+        exclude: ["createdAt", "updatedAt", "userId"],
+      },
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: {
+            exclude: ["createdAt", "updatedAt", "password"],
+          },
+        },
+        {
+          model: Product,
+          as: "products",
+          attributes: {
+            exclude: ["createdAt", "updatedAt", "stock"],
+          },
+          through: {
+            attributes: [["orderQuantity", "qty"]],
+            as: "orderQuantity",
+          },
+        },
+      ],
+    });
+    if (transactions.length === 0) {
+      return handleNotFound(res, "transactions is empty");
+    }
+
+    res.send({
+      status: responseSuccess,
+      message: "successfully get detail transaction",
+      data: { transaction },
+    });
+  } catch (error) {
+    return handleError(res, error);
+  }
 };

@@ -14,3 +14,14 @@ exports.handleError = (res, err, message = "Server Error") => {
     },
   });
 };
+exports.handleValidation = (scema, body, res) => {
+  const { error } = scema.validate(body, { abortEarly: false });
+    if (error) {
+      return res.status(400).send({
+        status: "Validation Error",
+        error: {
+          message: error.details.map((error) => error.message),
+        },
+      });
+    }
+}

@@ -3,14 +3,14 @@ const router = express.Router();
 
 // middlewares
 const { uploadImage } = require("../middlewares/upploadImage");
+const { auth: authentication } = require("../middlewares/auth");
+const checkAdmin = require("../middlewares/checkAdmin");
+
+// auth controllers
+const { login, register } = require("../controllers/auth");
 
 // users controllers
-const {
-  login,
-  register,
-  getUsers,
-  deleteUser,
-} = require("../controllers/users");
+const { getUsers, deleteUser } = require("../controllers/users");
 
 // products controllers
 const {
@@ -21,7 +21,7 @@ const {
   deleteProduct,
 } = require("../controllers/products");
 
-// transactions router
+// transactions controllers
 const {
   getTransactions,
   getDetailTransaction,
@@ -31,25 +31,43 @@ const {
   getMyTransaction,
 } = require("../controllers/transactions");
 
-// users router
+// auth router
 router.post("/login", login);
 router.post("/register", register);
-router.get("/users", getUsers);
-router.delete("/user/:id", deleteUser);
+
+// users router
+router.get("/users", authentication, checkAdmin, getUsers);
+router.delete("/user/:id", authentication, checkAdmin, deleteUser);
 
 // products router
 router.get("/products", getProducts);
 router.get("/product/:productId", getDetailProduct);
-router.post("/product", uploadImage("photo"), addProduct);
-router.patch("/product/:productId", editProduct);
-router.delete("/product/:productId", deleteProduct);
+router.post(
+  "/product",
+  authentication,
+  checkAdmin,
+  uploadImage("photo"),
+  addProduct
+);
+router.patch("/product/:productId", authentication, checkAdmin, editProduct);
+router.delete("/product/:productId", authentication, checkAdmin, deleteProduct);
 
 // transactions router
-router.get("/transactions", getTransactions);
-router.get("/transaction/:transactionId", getDetailTransaction);
-router.post("/transaction/", addTransactions);
-router.patch("/transaction/:transactionId", editTransaction);
-router.delete("/transaction/:transactionId", deleteTransaction);
-router.get("/my-transactions", getMyTransaction);
+router.get("/transactions", authentication, checkAdmin, getTransactions);
+router.get(
+  "/transaction/:transactionId",
+  authentication,
+  checkAdmin,
+  getDetailTransaction
+);
+router.post("/transaction/", authentication, addTransactions);
+router.patch("/transaction/:transactionId", authentication, editTransaction);
+router.delete(
+  "/transaction/:transactionId",
+  authentication,
+  checkAdmin,
+  deleteTransaction
+);
+router.get("/my-transactions", authentication, getMyTransaction);
 
 module.exports = router;
