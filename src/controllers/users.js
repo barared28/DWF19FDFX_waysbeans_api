@@ -1,5 +1,5 @@
 // import model
-const { User } = require("../../models");
+const { User, Profile } = require("../../models");
 // import some shortcut
 const {
   responseSuccess,
@@ -56,5 +56,45 @@ exports.deleteUser = async (req, res) => {
     });
   } catch (error) {
     return handleError(res, error);
+  }
+};
+
+// @desc Get User Profile
+// @route GET api/v1/user/my-profile
+// @access User
+exports.getProfile = async (req, res) => {
+  try {
+    const { id } = req.user;
+    const user = await User.findOne({
+      where: { id },
+    });
+    const profile = await Profile.findOne({ where: { userId: id } });
+    if (!profile) {
+      return res.send({
+        status: responseSuccess,
+        message: "not found but we will send default data",
+        data: {
+          profile: {
+            email: user.dataValues.email,
+            fullName: user.dataValues.fullName,
+            isAdmin: false,
+            photo: null,
+          },
+        },
+      });
+    }
+    const { isAdmin, photo } = profile;
+    res.send({
+      status: responseSuccess,
+      message: "successfully get profile data",
+      data: {
+        isAdmin,
+        photo,
+        email: user.email,
+        fullName: user.fullName,
+      },
+    });
+  } catch (error) {
+    handleError(res, error);
   }
 };

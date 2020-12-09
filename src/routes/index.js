@@ -10,7 +10,7 @@ const checkAdmin = require("../middlewares/checkAdmin");
 const { login, register } = require("../controllers/auth");
 
 // users controllers
-const { getUsers, deleteUser } = require("../controllers/users");
+const { getUsers, deleteUser, getProfile } = require("../controllers/users");
 
 // products controllers
 const {
@@ -38,6 +38,7 @@ router.post("/register", register);
 // users router
 router.get("/users", authentication, checkAdmin, getUsers);
 router.delete("/user/:id", authentication, checkAdmin, deleteUser);
+router.get("/user/my-profile", authentication, getProfile);
 
 // products router
 router.get("/products", getProducts);

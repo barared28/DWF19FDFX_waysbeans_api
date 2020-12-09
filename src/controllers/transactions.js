@@ -134,17 +134,27 @@ exports.addTransactions = async (req, res) => {
       name: Joi.string().min(2).required(),
       email: Joi.string().email().min(10).required(),
       phone: Joi.number().required(),
+      postCode: Joi.number().required(),
       address: Joi.string().min(5).required(),
       products: Joi.required(),
       attachment: Joi.required(),
     });
     handleValidation(scema, body, res);
-    const { name, email, phone, address, attachment, products } = body;
+    const {
+      name,
+      email,
+      phone,
+      address,
+      attachment,
+      products,
+      postCode,
+    } = body;
     const { id: userId } = req.user;
     const transaction = await Transaction.create({
       name,
       email,
       phone,
+      postCode,
       address,
       attachment,
       status: "Waiting Approve",
@@ -153,7 +163,6 @@ exports.addTransactions = async (req, res) => {
     await Promise.all(
       products.map(async (product) => {
         const { id, orderQuantity } = product;
-        console.log(product);
         await TransactionProduct.create({
           transactionId: transaction.id,
           productId: id,
