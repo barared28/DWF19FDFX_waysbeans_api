@@ -40,7 +40,7 @@ exports.getTransactions = async (req, res) => {
             exclude: ["createdAt", "updatedAt", "stock"],
           },
           through: {
-            attributes: [["orderQuantity", "qty"]],
+            attributes: [["orderQuantity", "value"]],
             as: "orderQuantity",
           },
         },
@@ -87,7 +87,7 @@ exports.getDetailTransaction = async (req, res) => {
             exclude: ["createdAt", "updatedAt", "stock"],
           },
           through: {
-            attributes: [["orderQuantity", "qty"]],
+            attributes: [["orderQuantity", "value"]],
             as: "orderQuantity",
           },
         },
@@ -130,6 +130,7 @@ exports.getDetailTransaction = async (req, res) => {
 exports.addTransactions = async (req, res) => {
   try {
     const { body } = req;
+    body.attachment = req.file.path;
     const scema = Joi.object({
       name: Joi.string().min(2).required(),
       email: Joi.string().email().min(10).required(),
@@ -149,6 +150,7 @@ exports.addTransactions = async (req, res) => {
       products,
       postCode,
     } = body;
+    const productsData = JSON.parse(products)
     const { id: userId } = req.user;
     const transaction = await Transaction.create({
       name,
@@ -161,7 +163,7 @@ exports.addTransactions = async (req, res) => {
       userId,
     });
     await Promise.all(
-      products.map(async (product) => {
+      productsData.map(async (product) => {
         const { id, orderQuantity } = product;
         await TransactionProduct.create({
           transactionId: transaction.id,
@@ -190,7 +192,7 @@ exports.addTransactions = async (req, res) => {
             exclude: ["createdAt", "updatedAt", "stock"],
           },
           through: {
-            attributes: [["orderQuantity", "qty"]],
+            attributes: [["orderQuantity", "value"]],
             as: "orderQuantity",
           },
         },
@@ -242,7 +244,7 @@ exports.editTransaction = async (req, res) => {
             exclude: ["createdAt", "updatedAt", "stock"],
           },
           through: {
-            attributes: [["orderQuantity", "qty"]],
+            attributes: [["orderQuantity", "value"]],
             as: "orderQuantity",
           },
         },
@@ -308,7 +310,7 @@ exports.getMyTransaction = async (req, res) => {
             exclude: ["createdAt", "updatedAt", "stock"],
           },
           through: {
-            attributes: [["orderQuantity", "qty"]],
+            attributes: [["orderQuantity", "value"]],
             as: "orderQuantity",
           },
         },
@@ -321,7 +323,7 @@ exports.getMyTransaction = async (req, res) => {
     res.send({
       status: responseSuccess,
       message: "successfully get detail transaction",
-      data: { transaction },
+      data: { transactions },
     });
   } catch (error) {
     return handleError(res, error);

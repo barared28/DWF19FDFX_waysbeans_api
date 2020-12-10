@@ -61,7 +61,7 @@ router.get(
   checkAdmin,
   getDetailTransaction
 );
-router.post("/transaction/", authentication, addTransactions);
+router.post("/transaction/", authentication,uploadImage("attachment"), addTransactions);
 router.patch("/transaction/:transactionId", authentication, editTransaction);
 router.delete(
   "/transaction/:transactionId",
