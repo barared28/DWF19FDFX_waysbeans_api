@@ -19,6 +19,7 @@ exports.getProducts = async (req, res) => {
       attributes: {
         exclude: ["createdAt", "updatedAt"],
       },
+      order: [["createdAt", "DESC"]],
     });
     if (products.length === 0) {
       return handleNotFound(res, "product empty");

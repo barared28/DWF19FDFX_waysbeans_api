@@ -1,5 +1,5 @@
 // import model
-const { User } = require("../../models");
+const { User, Profile } = require("../../models");
 // import module
 const Joi = require("joi");
 const bcrypt = require("bcrypt");
@@ -38,6 +38,11 @@ exports.register = async (req, res) => {
       fullName,
       email,
       password: hashedPassword,
+    });
+    await Profile.create({
+      userId: user.id,
+      photo: "default",
+      isAdmin: false,
     });
 
     const privateKey = process.env.JWT_PRIVATE_KEY;

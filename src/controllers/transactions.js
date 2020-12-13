@@ -25,6 +25,7 @@ exports.getTransactions = async (req, res) => {
       attributes: {
         exclude: ["createdAt", "updatedAt", "userId"],
       },
+      order: [["createdAt", "DESC"]],
       include: [
         {
           model: User,
@@ -150,7 +151,7 @@ exports.addTransactions = async (req, res) => {
       products,
       postCode,
     } = body;
-    const productsData = JSON.parse(products)
+    const productsData = JSON.parse(products);
     const { id: userId } = req.user;
     const transaction = await Transaction.create({
       name,
@@ -295,6 +296,7 @@ exports.getMyTransaction = async (req, res) => {
       attributes: {
         exclude: ["createdAt", "updatedAt", "userId"],
       },
+      order: [["createdAt", "DESC"]],
       include: [
         {
           model: User,
