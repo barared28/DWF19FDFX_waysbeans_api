@@ -22,9 +22,7 @@ module.exports = {
         references: {
           model: "Products",
           key: "id",
-        },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
+        }
       },
       orderQuantity: {
         type: Sequelize.INTEGER
