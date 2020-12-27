@@ -110,7 +110,7 @@ exports.editProfile = async (req, res) => {
     res.send({
       status: responseSuccess,
       message : "successfully edit profile",
-      data = {profile}
+      data : {profile}
     })
   } catch (error) {
     handleError(res, error);
