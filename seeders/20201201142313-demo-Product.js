@@ -11,13 +11,13 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    await queryInterface.bulkInsert("users", [
+    await queryInterface.bulkInsert("Users", [
       {
         email: "admin@gmail.com",
         password: "$2b$10$26mUw.RqTkaBgaDd7bVGMu.Bli2E.dFXl.AKJBeqDCcowJZMiGoVi",
       },
     ]);
-    await queryInterface.bulkInsert("profiles", [
+    await queryInterface.bulkInsert("Profiles", [
       {
         photo: "default",
         isAdmin: true,
