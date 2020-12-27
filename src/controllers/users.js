@@ -100,11 +100,11 @@ exports.getProfile = async (req, res) => {
 };
 
 // @desc Edit Profile
-// @route PATCH api/v1/user/:id
+// @route PATCH api/v1/user/
 // @access Admin
 exports.editProfile = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.user;
     const { body } = req;
     const profile = await Profile.update(body, { where: { userId: id } });
     res.send({
