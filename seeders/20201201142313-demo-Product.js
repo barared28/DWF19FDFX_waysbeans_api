@@ -24,7 +24,7 @@ module.exports = {
       {
         photo: "default",
         isAdmin: true,
-        userId: 1,
+        Profiles_userId_fkey: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
