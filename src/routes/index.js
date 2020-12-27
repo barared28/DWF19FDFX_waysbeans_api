@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 
 // middlewares
-const { uploadImage } = require("../middlewares/upploadImage");
+// const { uploadImage } = require("../middlewares/upploadImage");
 const { auth: authentication } = require("../middlewares/auth");
 const checkAdmin = require("../middlewares/checkAdmin");
+const { uploadImage } = require("../middlewares/uploadCloudinary");
 
 // auth controllers
 const { login, register } = require("../controllers/auth");
@@ -43,13 +44,7 @@ router.get("/user/my-profile", authentication, getProfile);
 // products router
 router.get("/products", getProducts);
 router.get("/product/:productId", getDetailProduct);
-router.post(
-  "/product",
-  authentication,
-  checkAdmin,
-  uploadImage("photo"),
-  addProduct
-);
+router.post("/product", authentication, checkAdmin, uploadImage, addProduct);
 router.patch("/product/:productId", authentication, checkAdmin, editProduct);
 router.delete("/product/:productId", authentication, checkAdmin, deleteProduct);
 
@@ -61,7 +56,7 @@ router.get(
   checkAdmin,
   getDetailTransaction
 );
-router.post("/transaction/", authentication,uploadImage("attachment"), addTransactions);
+router.post("/transaction/", authentication, uploadImage, addTransactions);
 router.patch("/transaction/:transactionId", authentication, editTransaction);
 router.delete(
   "/transaction/:transactionId",

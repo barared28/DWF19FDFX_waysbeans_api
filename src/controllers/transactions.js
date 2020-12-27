@@ -131,7 +131,7 @@ exports.getDetailTransaction = async (req, res) => {
 exports.addTransactions = async (req, res) => {
   try {
     const { body } = req;
-    body.attachment = req.file.path;
+    body.attachment = req.file.secure_url;
     const scema = Joi.object({
       name: Joi.string().min(2).required(),
       email: Joi.string().email().min(10).required(),

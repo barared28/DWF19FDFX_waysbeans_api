@@ -68,8 +68,7 @@ exports.getDetailProduct = async (req, res) => {
 exports.addProduct = async (req, res) => {
   try {
     const { body } = req;
-    console.log(body);
-    body.photo = req.file.path;
+    body.photo = req.file.secure_url;
     const scema = Joi.object({
       name: Joi.string().min(2).required(),
       price: Joi.number().min(1000).required(),
