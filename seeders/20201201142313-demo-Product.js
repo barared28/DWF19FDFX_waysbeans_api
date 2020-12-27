@@ -11,13 +11,17 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    await queryInterface.bulkInsert("products", [
+    await queryInterface.bulkInsert("users", [
       {
-        name: "RWANDA Beans",
-        price: 299900,
-        stock: 200,
-        description:
-          "Teasia's Rwandan coffee is another single-origin, sustainably sourced, 100% Arabica offering. These beans are grown by Lake Kivu around 5,000 to 6,000 feet above sea level. The beans are wet-processed and medium-dark roasted at an artisanal roaster. The brew has a rich, deep finish with clean bright flavors.Teasia's Rwandan coffee is another single-origin, sustainably sourced.",
+        email: "admin@gmail.com",
+        password: "$2b$10$26mUw.RqTkaBgaDd7bVGMu.Bli2E.dFXl.AKJBeqDCcowJZMiGoVi",
+      },
+    ]);
+    await queryInterface.bulkInsert("profiles", [
+      {
+        photo: "default",
+        isAdmin: true,
+        userId: 1,
       },
     ]);
   },
