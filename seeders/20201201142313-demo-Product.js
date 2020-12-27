@@ -11,24 +11,24 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    // await queryInterface.bulkInsert("Users", [
-    //   {
-    //     email: "admin@gmail.com",
-    //     password:
-    //       "$2b$10$26mUw.RqTkaBgaDd7bVGMu.Bli2E.dFXl.AKJBeqDCcowJZMiGoVi",
-    //     createdAt: new Date(),
-    //     updatedAt: new Date(),
-    //   },
-    // ]);
-    // await queryInterface.bulkInsert("Profiles", [
-    //   {
-    //     photo: "default",
-    //     isAdmin: true,
-    //     Profiles_userId_fkey: 1,
-    //     createdAt: new Date(),
-    //     updatedAt: new Date(),
-    //   },
-    // ]);
+    await queryInterface.bulkInsert("Users", [
+      {
+        email: "admin@gmail.com",
+        password:
+          "$2b$10$26mUw.RqTkaBgaDd7bVGMu.Bli2E.dFXl.AKJBeqDCcowJZMiGoVi",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ]);
+    await queryInterface.bulkInsert("Profiles", [
+      {
+        photo: "default",
+        isAdmin: true,
+        userId: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ]);
   },
 
   down: async (queryInterface, Sequelize) => {
