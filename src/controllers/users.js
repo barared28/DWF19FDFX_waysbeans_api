@@ -109,9 +109,9 @@ exports.editProfile = async (req, res) => {
     const profile = await Profile.update(body, { where: { userId: id } });
     res.send({
       status: responseSuccess,
-      message : "successfully edit profile",
-      data : {profile}
-    })
+      message: "successfully edit profile",
+      data: { profile },
+    });
   } catch (error) {
     handleError(res, error);
   }
