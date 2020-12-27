@@ -98,3 +98,21 @@ exports.getProfile = async (req, res) => {
     handleError(res, error);
   }
 };
+
+// @desc Edit Profile
+// @route PATCH api/v1/user/:id
+// @access Admin
+exports.editProfile = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { body } = req;
+    const profile = await Profile.update(body, { where: { userId: id } });
+    res.send({
+      status: responseSuccess,
+      message : "successfully edit profile",
+      data = {profile}
+    })
+  } catch (error) {
+    handleError(res, error);
+  }
+};
