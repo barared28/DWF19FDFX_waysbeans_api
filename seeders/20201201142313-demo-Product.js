@@ -11,7 +11,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    await queryInterface.bulkInsert("user", [
+    await queryInterface.bulkInsert("users", [
       {
         email: "admin@gmail.com",
         password: "$2b$10$26mUw.RqTkaBgaDd7bVGMu.Bli2E.dFXl.AKJBeqDCcowJZMiGoVi",
