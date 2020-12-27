@@ -16,8 +16,8 @@ module.exports = {
         email: "admin@gmail.com",
         password:
           "$2b$10$26mUw.RqTkaBgaDd7bVGMu.Bli2E.dFXl.AKJBeqDCcowJZMiGoVi",
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     ]);
     await queryInterface.bulkInsert("Profiles", [
@@ -25,8 +25,8 @@ module.exports = {
         photo: "default",
         isAdmin: true,
         userId: 1,
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     ]);
   },
