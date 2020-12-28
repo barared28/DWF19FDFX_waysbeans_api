@@ -151,6 +151,7 @@ exports.addTransactions = async (req, res) => {
       products,
       postCode,
     } = body;
+    const productsData = JSON.parse(products);
     const { id: userId } = req.user;
     const transaction = await Transaction.create({
       name,
@@ -163,7 +164,7 @@ exports.addTransactions = async (req, res) => {
       userId,
     });
     await Promise.all(
-      products.map(async (product) => {
+      productsData.map(async (product) => {
         const { id, orderQuantity } = product;
         await TransactionProduct.create({
           transactionId: transaction.id,
@@ -202,6 +203,7 @@ exports.addTransactions = async (req, res) => {
       status: responseSuccess,
       message: "successfully add transaction",
       data: { transaction: transactionAfterAdd },
+      console: productsData,
     });
   } catch (error) {
     handleError(res, error);
