@@ -166,9 +166,10 @@ exports.addTransactions = async (req, res) => {
     await Promise.all(
       productsData.map(async (product) => {
         const { id, orderQuantity } = product;
+        console.log(id, orderQuantity, transaction.id);
         await TransactionProduct.create({
           transactionId: transaction.id,
-          productId: id,
+          productId: +id,
           orderQuantity: orderQuantity,
         });
       })
