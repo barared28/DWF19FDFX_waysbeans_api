@@ -203,7 +203,6 @@ exports.addTransactions = async (req, res) => {
       status: responseSuccess,
       message: "successfully add transaction",
       data: { transaction: transactionAfterAdd },
-      console: productsData,
     });
   } catch (error) {
     handleError(res, error);
