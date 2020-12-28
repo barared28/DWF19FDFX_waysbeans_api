@@ -1,15 +1,12 @@
 # :tada: Welcome to My project Waysbeans :tada:
 
 <br />
-<br />
 My name is Bara Borneo <br />
 I am an Fullstack Developer
-<br />
 <br />
 
 ## :bell: About My Project :bell:
 
-<br />
 <br />
 
 This repo is about REST API for my project <br />
